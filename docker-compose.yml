@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - mysql-datavol:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+  web:
+    build: ./Django
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./Django:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_NAME
+      - DATABASE_USER
+      - DATABASE_PASSWORD
+      - DATABASE_HOST
+      - DATABASE_PORT
+    depends_on:
+      - db
+  proxy:
+    image: nginx
+    volumes:
+      - ./nginx:/etc/nginx
+    ports:
+      - "9090:80"
+volumes:
+  mysql-datavol:
