@@ -4,7 +4,7 @@ services:
   db:
     image: mysql:5.7
     volumes:
-      - mysql-datavol:/var/lib/mysql
+      - ./mysql-datavol:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD
       - MYSQL_DATABASE
@@ -18,18 +18,21 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_NAME
-      - DATABASE_USER
-      - DATABASE_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
       - DATABASE_HOST
       - DATABASE_PORT
     depends_on:
       - db
   proxy:
     image: nginx
+    environment:
+      - PROXY_IP
+      - PROXY_PORT
     volumes:
       - ./nginx:/etc/nginx
     ports:
       - "9090:80"
-volumes:
-  mysql-datavol:
+    links:
+      - "web:Django"
