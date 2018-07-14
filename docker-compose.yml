@@ -27,9 +27,9 @@ services:
       - db
   proxy:
     image: nginx
-    environment:
-      - PROXY_IP
-      - PROXY_PORT
+#    environment:
+#      - PROXY_IP
+#      - PROXY_PORT
     volumes:
       - ./nginx:/etc/nginx
     ports:
