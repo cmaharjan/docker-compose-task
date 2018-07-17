@@ -1,0 +1,6 @@
+.git
+.gitignore
+.env
+mysql-datvol
+docker-compose.yml
+Django/gdtask/__pycache__/
