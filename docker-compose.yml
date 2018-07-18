@@ -26,12 +26,13 @@ services:
   proxy:
     image: nginx
     restart: always
-    environment:
-      - PROXY_IP
+#    environment:
+#      - PROXY_IP
     volumes:
-      - ./nginx:/src
+      - ./nginx-config:/etc/nginx
+     
     ports:
       - "9090:80"
     links:
       - "web:Django"
-    command: ./src/run_nginx.sh
+ #   command: ./src/run_nginx.sh
