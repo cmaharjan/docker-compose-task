@@ -13,8 +13,6 @@ services:
   web:
     build: ./Django
     command: python3 manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./Django:/code
     ports:
       - "8000:8000"
     environment:
@@ -27,12 +25,13 @@ services:
       - db
   proxy:
     image: nginx
-#    environment:
-#      - PROXY_IP
-#      - PROXY_PORT
+    restart: always
+    environment:
+      - PROXY_IP
     volumes:
-      - ./nginx:/etc/nginx
+      - ./nginx:/src
     ports:
       - "9090:80"
     links:
       - "web:Django"
+    command: ./src/run_nginx.sh
